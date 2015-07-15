@@ -6,11 +6,11 @@ def encode(h)
     puts val
 end
 
-file = File.open(ARGV[0]);
+file = File.open(ARGV[0], 'r:UTF-8');
 #puts "input:" + file.read.encoding.to_s;
 output = JSON.pretty_generate(JSON.parse(file.read));
 #puts output.force_encoding('IBM866').encode('UTF-8');
 #output.encode!('UTF-8');
 #puts "output:" + file.read.encoding.to_s;
     
-File.open(ARGV[1], 'w').write(output)
+File.open(ARGV[1], 'w:UTF-8').write(output)
