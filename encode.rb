@@ -1,16 +1,19 @@
 #!/usr/bin/env ruby
 require 'json'
 
-def encode(h)
-    val = "|" + h.each {|k, v| v.to_s }.join("|") + "|"
-    puts val
+@fields = ["id", "name", "type", "faction", "race", "rarity", "cost", "attack", "durability", "health", "text", "flavor", "playerClass", "mechanics"]
+
+def encode(hash)
+    sets = hash.each{|h| h[0] }
+    puts "Found #{sets.size} sets"
+    cards = []
+    sets.each {|s| cards.concat(s[1]) }
+    puts "Found #{cards.size} cards"
+
+    cards.map{ |c| @fields.map { |f| c[f] }.join("|")}
 end
 
-file = File.open(ARGV[0], 'r:UTF-8');
-#puts "input:" + file.read.encoding.to_s;
-output = JSON.pretty_generate(JSON.parse(file.read));
-#puts output.force_encoding('IBM866').encode('UTF-8');
-#output.encode!('UTF-8');
-#puts "output:" + file.read.encoding.to_s;
-    
-File.open(ARGV[1], 'w:UTF-8').write(output)
+file = File.open(ARGV[0], 'r:UTF-8', &:read);
+output = encode(JSON.parse(file.read))
+
+#File.open(ARGV[1], 'w:UTF-8').write(output)
